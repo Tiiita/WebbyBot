@@ -1,7 +1,8 @@
 package net.propvp;
+import net.propvp.WebbyBot;
 
 /**
- * Created on April 10, 2023 | 16:46:52
+ * Created on April 10, 2023 | 18:01:16
  * (●'◡'●)
  */
 public class Main {

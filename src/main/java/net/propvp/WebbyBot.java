@@ -4,7 +4,9 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.requests.GatewayIntent;
+import net.propvp.util.ConfigWrapper;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 /**
@@ -13,8 +15,18 @@ import java.util.Arrays;
  */
 public class WebbyBot {
     private JDA jda;
+    private ConfigWrapper config;
     public void run() {
-        this.jda = JDABuilder.createDefault("MTA5NDk4NjEyMTQ4MzY2NTQ1OA.GeSeUY.3tGukVTyFy2EW5_mKr2w9hHJ056u8P4cEFuoDo")
+
+        this.config = new ConfigWrapper();
+        try {
+            config.load("config.yml");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        String token = config.getString("token");
+        this.jda = JDABuilder.createDefault(token)
                 .setEnabledIntents(Arrays.asList(GatewayIntent.values()))
                 .setBulkDeleteSplittingEnabled(false)
                 .setStatus(OnlineStatus.ONLINE)
@@ -31,5 +43,14 @@ public class WebbyBot {
 
 
 
+    }
+
+
+    public JDA getJda() {
+        return jda;
+    }
+
+    public ConfigWrapper getConfig() {
+        return config;
     }
 }
