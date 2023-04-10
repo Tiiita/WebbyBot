@@ -35,14 +35,23 @@ public class ConfigWrapper {
         return (int) config.get(path);
     }
 
-    public void load(String filePath) throws IOException {
+    public void load(String filePath) {
+
         Path path = Path.of(filePath);
         String fileExtension = getFileExtension(path);
 
         if (fileExtension.equals("yml") || fileExtension.equals("yaml")) {
-            loadYaml(path);
+            try {
+                loadYaml(path);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         } else {
-            loadPlainText(path);
+            try {
+                loadPlainText(path);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -61,11 +70,9 @@ public class ConfigWrapper {
 
     private void loadYaml(Path path) throws IOException {
         Yaml yaml = new Yaml();
-        Map<String, Object> yamlConfig = yaml.load(Files.newInputStream(path));
-
-        for (Map.Entry<String, Object> entry : yamlConfig.entrySet()) {
-            config.put(entry.getKey(), entry.getValue());
-        }
+        InputStream inputStream = getClass().getResourceAsStream("/config.yml");
+        Map<String, Object> yamlConfig = yaml.load(inputStream);
+        config.putAll(yamlConfig);
     }
 
     public void save(String filePath) throws IOException {

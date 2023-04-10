@@ -19,11 +19,7 @@ public class WebbyBot {
     public void run() {
 
         this.config = new ConfigWrapper();
-        try {
-            config.load("config.yml");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        config.load("config.yml");
 
         String token = config.getString("token");
         this.jda = JDABuilder.createDefault(token)
