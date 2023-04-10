@@ -27,7 +27,6 @@ public class WebbyBot {
                 .setBulkDeleteSplittingEnabled(false)
                 .setStatus(OnlineStatus.ONLINE)
                 .build();
-
         try {
             jda.awaitReady();
         } catch (InterruptedException e) {
@@ -41,12 +40,19 @@ public class WebbyBot {
 
     }
 
-
     public JDA getJda() {
         return jda;
     }
 
     public ConfigWrapper getConfig() {
         return config;
+    }
+
+
+
+    public static class Main {
+        public static void main(String[] args) {
+            new WebbyBot().run();
+        }
     }
 }

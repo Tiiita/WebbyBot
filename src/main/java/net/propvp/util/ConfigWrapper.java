@@ -36,7 +36,6 @@ public class ConfigWrapper {
     }
 
     public void load(String filePath) {
-
         Path path = Path.of(filePath);
         String fileExtension = getFileExtension(path);
 
