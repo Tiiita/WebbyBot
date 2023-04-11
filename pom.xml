@@ -21,7 +21,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>net.propvp.Main</mainClass>
+                            <mainClass>net.propvp.webbybot.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

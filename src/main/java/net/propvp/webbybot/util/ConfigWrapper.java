@@ -1,19 +1,21 @@
-package net.propvp.util;
-import net.propvp.WebbyBot;
+package net.propvp.webbybot.util;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.*;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created on April 10, 2023 | 17:46:08
  * (●'◡'●)
  */
 public class ConfigWrapper {
-    private final Map<String, Object> config;
+    private Map<String, Object> config;
 
     public ConfigWrapper() {
         config = new HashMap<>();
@@ -69,7 +71,7 @@ public class ConfigWrapper {
 
     private void loadYaml(Path path) throws IOException {
         Yaml yaml = new Yaml();
-        InputStream inputStream = getClass().getResourceAsStream("/config.yml");
+        InputStream inputStream = Files.newInputStream(path);
         Map<String, Object> yamlConfig = yaml.load(inputStream);
         config.putAll(yamlConfig);
     }

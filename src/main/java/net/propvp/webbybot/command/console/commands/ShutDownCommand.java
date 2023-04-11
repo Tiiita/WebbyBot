@@ -1,6 +1,6 @@
-package net.propvp.command.console.commands;
+package net.propvp.webbybot.command.console.commands;
 
-import net.propvp.command.console.Command;
+import net.propvp.webbybot.command.console.Command;
 
 /**
  * Created on April 11, 2023 | 01:26:40

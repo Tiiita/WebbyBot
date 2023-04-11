@@ -1,6 +1,4 @@
-package net.propvp;
-
-import java.util.Scanner;
+package net.propvp.webbybot;
 
 /**
  * Created on April 11, 2023 | 00:14:55

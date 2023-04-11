@@ -1,16 +1,13 @@
-package net.propvp;
+package net.propvp.webbybot;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.requests.GatewayIntent;
-import net.propvp.command.console.ConsoleCommandManager;
-import net.propvp.util.ConfigWrapper;
+import net.propvp.webbybot.command.console.ConsoleCommandManager;
+import net.propvp.webbybot.util.ConfigWrapper;
 
-import javax.sound.midi.Soundbank;
-import javax.swing.table.JTableHeader;
 import java.util.Arrays;
-import java.util.Scanner;
 
 /**
  * Created on April 10, 2023 | 16:07:08
@@ -25,6 +22,17 @@ public class WebbyBot {
     public void run() {
         System.out.println("Created Bot Instance!");
         System.out.println("Starting...");
+
+
+        //Token
+
+
+        //TODO: FIx CongigWrapper so you can create multiple configs! | 11.04.2023 16:00 <- Fix Date
+        ConfigWrapper tokenConfig = new ConfigWrapper();
+        tokenConfig.load("token.yml");
+
+        //
+
 
         //Main
         this.config = new ConfigWrapper();
@@ -44,8 +52,9 @@ public class WebbyBot {
 
 
     }
+
     private void connectToDiscord(String token) {
-        this.jda =  JDABuilder.createDefault(token)
+        this.jda = JDABuilder.createDefault(token)
                 .setEnabledIntents(Arrays.asList(GatewayIntent.values()))
                 .setBulkDeleteSplittingEnabled(false)
                 .setStatus(OnlineStatus.ONLINE)
@@ -57,6 +66,7 @@ public class WebbyBot {
             throw new RuntimeException(e);
         }
     }
+
     public JDA getJda() {
         return jda;
     }

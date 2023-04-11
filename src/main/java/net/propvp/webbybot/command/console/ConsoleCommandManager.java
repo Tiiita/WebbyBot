@@ -1,6 +1,6 @@
-package net.propvp.command.console;
+package net.propvp.webbybot.command.console;
 
-import net.propvp.command.console.commands.ShutDownCommand;
+import net.propvp.webbybot.command.console.commands.ShutDownCommand;
 
 import java.util.HashSet;
 import java.util.Scanner;
