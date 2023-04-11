@@ -13,7 +13,6 @@ public enum Logger {
     //LogTypes
     DEBUG,
     INFO,
-
     //Error is special! Don't change it if you want error logging features. It will check if the Type is "ERROR" and prints a special red message!
     ERROR;
 

@@ -6,6 +6,7 @@ import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.propvp.webbybot.command.console.ConsoleCommandManager;
 import net.propvp.webbybot.util.Config;
+import net.propvp.webbybot.util.Logger;
 
 import java.util.Arrays;
 
@@ -20,8 +21,9 @@ public class WebbyBot {
     private ConsoleCommandManager consoleCommandManager;
 
     public void run() {
-        System.out.println("Created Bot Instance!");
-        System.out.println("Starting...");
+        Logger infoLogger = Logger.INFO;
+        Logger.log(infoLogger, "Created Bot Instance!");
+        Logger.log(infoLogger, "Starting...");
 
         //Token
         Config tokenConfig = new Config("token.yml");
@@ -33,7 +35,8 @@ public class WebbyBot {
         connectToDiscord(token);
         registerCommand();
         //End
-        System.out.println("Start Complete, Done :)");
+        Logger.log(infoLogger, "Start Complete, Done :)");
+        Logger.log(infoLogger, "Type /shutdown to stop the bot application");
         this.consoleCommandManager = new ConsoleCommandManager();
     }
 
