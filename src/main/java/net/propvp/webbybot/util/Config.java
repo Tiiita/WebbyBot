@@ -2,23 +2,22 @@ package net.propvp.webbybot.util;
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.*;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created on April 10, 2023 | 17:46:08
  * (●'◡'●)
  */
-public class ConfigWrapper {
-    private Map<String, Object> config;
+public class Config {
+    private final Map<String, Object> config;
 
-    public ConfigWrapper() {
+    public Config(String filePath) {
         config = new HashMap<>();
+        load(filePath);
     }
 
     public void setString(String path, String value) {
@@ -38,9 +37,10 @@ public class ConfigWrapper {
     }
 
     public void load(String filePath) {
-        Path path = Path.of(filePath);
+        Path path = Paths.get(filePath);
+        Logger.log(Logger.DEBUG, "Path: " + path);
         String fileExtension = getFileExtension(path);
-
+        Logger.log(Logger.DEBUG, "FileExtension: " + fileExtension);
         if (fileExtension.equals("yml") || fileExtension.equals("yaml")) {
             try {
                 loadYaml(path);
@@ -72,6 +72,9 @@ public class ConfigWrapper {
     private void loadYaml(Path path) throws IOException {
         Yaml yaml = new Yaml();
         InputStream inputStream = Files.newInputStream(path);
+        if (inputStream == null) {
+            Logger.log(Logger.DEBUG, "Could not find yaml with the name" + path);
+        }
         Map<String, Object> yamlConfig = yaml.load(inputStream);
         config.putAll(yamlConfig);
     }

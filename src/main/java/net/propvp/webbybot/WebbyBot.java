@@ -5,7 +5,7 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.propvp.webbybot.command.console.ConsoleCommandManager;
-import net.propvp.webbybot.util.ConfigWrapper;
+import net.propvp.webbybot.util.Config;
 
 import java.util.Arrays;
 
@@ -16,36 +16,27 @@ import java.util.Arrays;
 public class WebbyBot {
 
     private JDA jda;
-    private ConfigWrapper config;
+    private Config config;
     private ConsoleCommandManager consoleCommandManager;
 
     public void run() {
         System.out.println("Created Bot Instance!");
         System.out.println("Starting...");
 
-
         //Token
-
-
-        //TODO: FIx CongigWrapper so you can create multiple configs! | 11.04.2023 16:00 <- Fix Date
-        ConfigWrapper tokenConfig = new ConfigWrapper();
-        tokenConfig.load("token.yml");
-
-        //
+        Config tokenConfig = new Config("token.yml");
+        String token = tokenConfig.getString("token");
 
 
         //Main
-        this.config = new ConfigWrapper();
-        config.load("config.yml");
-        String token = config.getString("token");
+        this.config = new Config("config.yml");
         connectToDiscord(token);
         registerCommand();
-        System.out.println("Start Complete, Done :)");
-        //End
-
-
         this.consoleCommandManager = new ConsoleCommandManager();
+        //End
+        System.out.println("Start Complete, Done :)");
     }
+
 
 
     private void registerCommand() {
@@ -71,7 +62,11 @@ public class WebbyBot {
         return jda;
     }
 
-    public ConfigWrapper getConfig() {
+    public ConsoleCommandManager getConsoleCommandManager() {
+        return consoleCommandManager;
+    }
+
+    public Config getConfig() {
         return config;
     }
 
