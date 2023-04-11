@@ -35,7 +35,7 @@ public class WebbyBot {
         Logger.log(infoLogger, "Starting...");
 
         //Setup configs
-        this.config = new Config("config.yml");
+        this.config = new Config( "config.yml");
         this.securityConfig = new Config("security.yml");
         String token = securityConfig.getString("token");
 
@@ -46,12 +46,13 @@ public class WebbyBot {
         String username = getConfig().getString("mysql.user");
         String password = getConfig().getString("mysql.password");
 
-        this.mySQL = new MySQL(host, port, database, username, password);
-        this.databaseManager = new DatabaseManager(mySQL);
+        //IMPORTANT: Database is not set up.
+        //this.mySQL = new MySQL(host, port, database, username, password);
+        //this.databaseManager = new DatabaseManager(mySQL);
 
         setupDiscord(token);
         Logger.log(infoLogger, "Start Complete, Done :)");
-        Logger.log(infoLogger, "Type /shutdown to stop the bot application");
+        Logger.log(infoLogger, "Type 'shutdown' to stop the bot application");
         this.consoleCommandManager = new ConsoleCommandManager();
     }
 
