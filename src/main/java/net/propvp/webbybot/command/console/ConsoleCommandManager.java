@@ -29,8 +29,8 @@ public class ConsoleCommandManager {
         String input = scanner.nextLine();
 
         if (input.trim().length() == 0) {
-            scanner.close();
             listenToCommand();
+            scanner.close();
             return;
         }
 
@@ -38,11 +38,11 @@ public class ConsoleCommandManager {
             if (!input.equalsIgnoreCase(command.getCommandName())) continue;
             if (command.getActionOnRun() == null) continue;
             command.getActionOnRun().run();
-            scanner.close();
             listenToCommand(); //Start listening again
+            scanner.close();
         }
-        scanner.close();
         actionOnCommandNotFound(input);
+        scanner.close();
 
     }
 
