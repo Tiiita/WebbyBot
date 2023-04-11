@@ -8,8 +8,11 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.attribute.PosixFilePermission;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created on April 10, 2023 | 17:46:08
@@ -42,6 +45,7 @@ public class Config {
     public int getInt(String path) {
         return (int) config.get(path);
     }
+
 
     public void load(String filePath) throws URISyntaxException, IOException {
         ClassLoader classLoader = getClass().getClassLoader();
