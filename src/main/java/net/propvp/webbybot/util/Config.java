@@ -1,7 +1,10 @@
 package net.propvp.webbybot.util;
+
 import org.yaml.snakeyaml.Yaml;
 
 import java.io.*;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -17,7 +20,11 @@ public class Config {
 
     public Config(String filePath) {
         config = new HashMap<>();
-        load(filePath);
+        try {
+            load(filePath);
+        } catch (URISyntaxException | IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void setString(String path, String value) {
@@ -36,20 +43,16 @@ public class Config {
         return (int) config.get(path);
     }
 
-    public void load(String filePath) {
-        Path path = Paths.get(filePath);
-        Logger.log(Logger.DEBUG, "Path: " + path);
-        String fileExtension = getFileExtension(path);
-        Logger.log(Logger.DEBUG, "FileExtension: " + fileExtension);
+    public void load(String filePath) throws URISyntaxException, IOException {
+        ClassLoader classLoader = getClass().getClassLoader();
+        URL resourceUrl = classLoader.getResource(filePath);
+        Path resourcePath = Paths.get(resourceUrl.toURI());
+        String fileExtension = getFileExtension(resourcePath);
         if (fileExtension.equals("yml") || fileExtension.equals("yaml")) {
-            try {
-                loadYaml(path);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            loadYaml(resourcePath);
         } else {
             try {
-                loadPlainText(path);
+                loadPlainText(resourcePath);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -70,13 +73,17 @@ public class Config {
     }
 
     private void loadYaml(Path path) throws IOException {
-        Yaml yaml = new Yaml();
-        InputStream inputStream = Files.newInputStream(path);
-        if (inputStream == null) {
-            Logger.log(Logger.DEBUG, "Could not find yaml with the name" + path);
+        if (Files.size(path) == 0) {
+            throw new IllegalArgumentException("Empty YAML file: " + path.toString());
         }
-        Map<String, Object> yamlConfig = yaml.load(inputStream);
-        config.putAll(yamlConfig);
+        Yaml yaml = new Yaml();
+        try (Reader reader = Files.newBufferedReader(path)) {
+            Map<String, Object> yamlConfig = yaml.load(reader);
+            if (yamlConfig == null) {
+                throw new IllegalArgumentException("Invalid YAML syntax: " + path.toString());
+            }
+            config.putAll(yamlConfig);
+        }
     }
 
     public void save(String filePath) throws IOException {

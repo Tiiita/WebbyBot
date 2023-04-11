@@ -32,9 +32,9 @@ public class WebbyBot {
         this.config = new Config("config.yml");
         connectToDiscord(token);
         registerCommand();
-        this.consoleCommandManager = new ConsoleCommandManager();
         //End
         System.out.println("Start Complete, Done :)");
+        this.consoleCommandManager = new ConsoleCommandManager();
     }
 
 
