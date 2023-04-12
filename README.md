@@ -15,4 +15,9 @@ https://discord.com/api/oauth2/authorize?client_id=1094986121483665458&permissio
 Here you can get to the official Discord of the bot (support):
 https://discord.gg/6aynPxy4ZU
 
+You can use the code for inspiration or add it to your own bots. 
+
+But please note:
+Our code may not be sold under any other name.
+
 Thanks to all who use our bot!
