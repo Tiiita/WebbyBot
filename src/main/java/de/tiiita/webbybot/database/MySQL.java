@@ -19,21 +19,21 @@ import java.util.stream.Collectors;
  */
 public class MySQL {
 
-    private final String HOST;
-    private final String DATABASE;
-    private final String USER;
-    private final String PASSWORD;
-    private final String PORT;
+    private final String host;
+    private final String database;
+    private final String user;
+    private final String password;
+    private final String port;
     private Connection connection;
     private final HikariConfig config = new HikariConfig();
     private HikariDataSource dataSource;
 
-    public MySQL(String HOST, String PORT, String DATABASE, String USER, String PASSWORD) {
-        this.HOST = HOST;
-        this.DATABASE = DATABASE;
-        this.USER = USER;
-        this.PASSWORD = PASSWORD;
-        this.PORT = PORT;
+    public MySQL(String host, String port, String database, String user, String password) {
+        this.host = host;
+        this.database = database;
+        this.user = user;
+        this.password = password;
+        this.port = port;
 
         connect();
         try {
@@ -45,9 +45,9 @@ public class MySQL {
 
     public void connect() {
         try {
-            config.setJdbcUrl("jdbc:mysql://" + HOST + ":" + PORT + "/" + DATABASE + "?autoConnect=true&serverTimezone=UTC");
-            config.setUsername(USER);
-            config.setPassword(PASSWORD);
+            config.setJdbcUrl("jdbc:mysql://" + host + ":" + port + "/" + database + "?autoConnect=true&serverTimezone=UTC");
+            config.setUsername(user);
+            config.setPassword(password);
             config.addDataSourceProperty("cachePrepStmts", "true");
             config.addDataSourceProperty("prepStmtCacheSize", "250");
             config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
