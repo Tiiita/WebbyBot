@@ -51,6 +51,7 @@ public class WebbyBot {
         //this.databaseManager = new DatabaseManager(mySQL);
 
         setupDiscord(token);
+        jda.updateCommands().submit();
         Logger.log(infoLogger, "Start Complete, Done :)");
         Logger.log(infoLogger, "Type 'shutdown' to stop the bot application");
         this.consoleCommandManager = new ConsoleCommandManager(this);
