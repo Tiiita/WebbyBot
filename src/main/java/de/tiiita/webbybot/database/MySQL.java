@@ -1,8 +1,8 @@
-package net.propvp.webbybot.database;
+package de.tiiita.webbybot.database;
 
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import net.propvp.webbybot.util.Logger;;
+import de.tiiita.webbybot.util.Logger;;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;

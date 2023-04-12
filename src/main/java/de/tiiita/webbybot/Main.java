@@ -1,4 +1,4 @@
-package net.propvp.webbybot;
+package de.tiiita.webbybot;
 
 /**
  * Created on April 11, 2023 | 00:14:55

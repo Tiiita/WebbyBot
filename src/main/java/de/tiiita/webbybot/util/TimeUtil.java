@@ -1,4 +1,4 @@
-package net.propvp.webbybot.util;
+package de.tiiita.webbybot.util;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

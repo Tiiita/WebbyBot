@@ -1,7 +1,7 @@
-package net.propvp.webbybot.command.console.commands;
+package de.tiiita.webbybot.command.console.commands;
 
+import de.tiiita.webbybot.command.console.ConsoleCommand;
 import net.dv8tion.jda.api.JDA;
-import net.propvp.webbybot.command.console.ConsoleCommand;
 
 /**
  * Created on April 12, 2023 | 17:46:22

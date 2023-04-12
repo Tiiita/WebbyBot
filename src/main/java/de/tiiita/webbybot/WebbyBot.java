@@ -1,17 +1,17 @@
-package net.propvp.webbybot;
+package de.tiiita.webbybot;
 
+import de.tiiita.webbybot.command.TimeCommand;
+import de.tiiita.webbybot.command.console.ConsoleCommandManager;
+import de.tiiita.webbybot.database.DatabaseManager;
+import de.tiiita.webbybot.database.MySQL;
+import de.tiiita.webbybot.util.Config;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.requests.restaction.CommandCreateAction;
-import net.propvp.webbybot.command.TimeCommand;
-import net.propvp.webbybot.command.console.ConsoleCommandManager;
-import net.propvp.webbybot.database.DatabaseManager;
-import net.propvp.webbybot.database.MySQL;
-import net.propvp.webbybot.util.Config;
-import net.propvp.webbybot.util.Logger;
+import de.tiiita.webbybot.util.Logger;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;

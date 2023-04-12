@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>net.propvp</groupId>
+    <groupId>de.tiiita</groupId>
     <artifactId>WebbyBot</artifactId>
     <version>1.0.0</version>
 
@@ -14,14 +14,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <build>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <includes>
-                    <include>**/*</include>
-                </includes>
-            </resource>
-        </resources>
         <plugins>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -29,7 +21,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>net.propvp.webbybot.Main</mainClass>
+                            <mainClass>de.tiiita.webbybot.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>
@@ -47,7 +39,7 @@
                 </executions>
             </plugin>
         </plugins>
-        <finalName>WebbyBot-${project.version}</finalName>
+        <finalName>WebbyBot</finalName>
     </build>
 
     <dependencies>

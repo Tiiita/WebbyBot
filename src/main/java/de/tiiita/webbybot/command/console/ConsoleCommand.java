@@ -1,4 +1,4 @@
-package net.propvp.webbybot.command.console;
+package de.tiiita.webbybot.command.console;
 
 /**
  * Created on April 11, 2023 | 01:18:57

@@ -1,10 +1,9 @@
-package net.propvp.webbybot.command;
+package de.tiiita.webbybot.command;
 
 import net.dv8tion.jda.api.EmbedBuilder;
-import net.dv8tion.jda.api.entities.channel.unions.MessageChannelUnion;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
-import net.propvp.webbybot.util.TimeUtil;
+import de.tiiita.webbybot.util.TimeUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;

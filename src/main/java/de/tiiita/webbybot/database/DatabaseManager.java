@@ -1,4 +1,4 @@
-package net.propvp.webbybot.database;
+package de.tiiita.webbybot.database;
 
 
 import java.sql.Connection;

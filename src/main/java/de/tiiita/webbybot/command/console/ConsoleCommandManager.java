@@ -1,9 +1,9 @@
-package net.propvp.webbybot.command.console;
+package de.tiiita.webbybot.command.console;
 
-import net.propvp.webbybot.WebbyBot;
-import net.propvp.webbybot.command.console.commands.GuildsCommand;
-import net.propvp.webbybot.command.console.commands.InfoCommand;
-import net.propvp.webbybot.command.console.commands.ShutDownCommand;
+import de.tiiita.webbybot.WebbyBot;
+import de.tiiita.webbybot.command.console.commands.GuildsCommand;
+import de.tiiita.webbybot.command.console.commands.InfoCommand;
+import de.tiiita.webbybot.command.console.commands.ShutDownCommand;
 
 import java.util.HashSet;
 import java.util.Scanner;

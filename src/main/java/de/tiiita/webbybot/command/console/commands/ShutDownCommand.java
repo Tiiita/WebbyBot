@@ -1,6 +1,6 @@
-package net.propvp.webbybot.command.console.commands;
+package de.tiiita.webbybot.command.console.commands;
 
-import net.propvp.webbybot.command.console.ConsoleCommand;
+import de.tiiita.webbybot.command.console.ConsoleCommand;
 
 /**
  * Created on April 11, 2023 | 01:26:40
