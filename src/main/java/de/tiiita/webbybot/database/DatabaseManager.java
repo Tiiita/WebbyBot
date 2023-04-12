@@ -15,9 +15,8 @@ import java.util.concurrent.CompletableFuture;
 public class DatabaseManager {
 
     private final MySQL mySQL;
-    private final String table = "stats";
+    private final String settingsTable = "settings";
     public DatabaseManager(MySQL mySQL) {
-
         this.mySQL = mySQL;
     }
 
@@ -25,7 +24,7 @@ public class DatabaseManager {
     public CompletableFuture<Boolean> isGuildRegistered(String guildId) {
         return CompletableFuture.supplyAsync(() -> {
             try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(
-                    "select uuid from " + this.table + " where uuid = ?;")) {
+                    "select uuid from " + this.settingsTable + " where uuid = ?;")) {
                 statement.setString(1, guildId);
                 ResultSet result = statement.executeQuery();
                 return result.next();
@@ -38,7 +37,7 @@ public class DatabaseManager {
     public CompletableFuture<Void> registerGuild(String guildId) {
         return CompletableFuture.runAsync(() -> {
             try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(
-                    "INSERT INTO "+  this.table + "(guildId) VALUES(?);")) {
+                    "INSERT INTO "+  this.settingsTable + "(guildId) VALUES(?);")) {
                 statement.setString(1, guildId);
                 statement.execute();
             } catch (SQLException e) {
@@ -46,6 +45,7 @@ public class DatabaseManager {
             }
         });
     }
+
 
     private Connection getConnection() {
         try {

@@ -4,7 +4,7 @@ It was programmed in Java. It is used for community / server administration and 
 It will have many features like TicketSystems, Reaction Roles, Embed Message Sending and much more. 
 
 You all know the "MEE6" bot?
-Our bot will be able to do more, have an equally beautiful user interface and all features will be 100% for free.
+Our bot will be able to do more, have an equally beautiful user interface and all features will be **100% for free**.
 
 We would be happy if you invite our bot, which was created with a lot of effort, night shifts and joy, to your server. 
 Your server will not only get better, but the bot will get closer and closer to being verified.
