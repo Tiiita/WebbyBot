@@ -25,7 +25,7 @@ public class Config {
         config = new HashMap<>();
         try {
             load(filePath);
-        } catch (URISyntaxException | IOException e) {
+        } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
@@ -47,44 +47,39 @@ public class Config {
     }
 
 
-    public void load(String filePath) throws URISyntaxException, IOException {
+    public void load(String filePath) throws IOException {
         ClassLoader classLoader = getClass().getClassLoader();
-        URL resourceUrl = classLoader.getResource(filePath);
-        Path resourcePath = Paths.get(resourceUrl.toURI());
-        String fileExtension = getFileExtension(resourcePath);
+        InputStream inputStream = classLoader.getResourceAsStream(filePath);
+        String fileExtension = getFileExtension(filePath);
         if (fileExtension.equals("yml") || fileExtension.equals("yaml")) {
-            loadYaml(resourcePath);
+            loadYaml(inputStream);
         } else {
-            try {
-                loadPlainText(resourcePath);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
+            loadPlainText(inputStream);
         }
     }
 
-    private String getFileExtension(Path path) {
-        String fileName = path.getFileName().toString();
+    private String getFileExtension(String filePath) {
+        String fileName = new File(filePath).getName();
         int dotIndex = fileName.lastIndexOf(".");
         return dotIndex == -1 ? "" : fileName.substring(dotIndex + 1);
     }
 
-    private void loadPlainText(Path path) throws IOException {
-        for (String line : Files.readAllLines(path)) {
-            String[] parts = line.split(":");
-            config.put(parts[0].trim(), parts[1].trim());
+    private void loadPlainText(InputStream inputStream) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] parts = line.split(":");
+                config.put(parts[0].trim(), parts[1].trim());
+            }
         }
     }
 
-    private void loadYaml(Path path) throws IOException {
-        if (Files.size(path) == 0) {
-            throw new IllegalArgumentException("Empty YAML file: " + path.toString());
-        }
+    private void loadYaml(InputStream inputStream) throws IOException {
         Yaml yaml = new Yaml();
-        try (Reader reader = Files.newBufferedReader(path)) {
+        try (Reader reader = new BufferedReader(new InputStreamReader(inputStream))) {
             Map<String, Object> yamlConfig = yaml.load(reader);
             if (yamlConfig == null) {
-                throw new IllegalArgumentException("Invalid YAML syntax: " + path.toString());
+                throw new IllegalArgumentException("Invalid YAML syntax");
             }
             config.putAll(yamlConfig);
         }
@@ -92,7 +87,7 @@ public class Config {
 
     public void save(String filePath) throws IOException {
         Path path = Path.of(filePath);
-        String fileExtension = getFileExtension(path);
+        String fileExtension = getFileExtension(filePath);
 
         if (fileExtension.equals("yml") || fileExtension.equals("yaml")) {
             saveYaml(path);
