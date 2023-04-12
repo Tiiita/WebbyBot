@@ -19,8 +19,6 @@ public class PollManager {
         currentPolls.add(poll);
     }
 
-
-
     public void closePoll(Poll poll) {
         poll.close();
         currentPolls.remove(poll);

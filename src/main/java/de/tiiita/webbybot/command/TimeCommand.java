@@ -13,6 +13,8 @@ import java.awt.*;
  * (●'◡'●)
  */
 public class TimeCommand extends ListenerAdapter {
+
+    @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
         EmbedBuilder embed = new EmbedBuilder();
         embed.setColor(Color.CYAN);

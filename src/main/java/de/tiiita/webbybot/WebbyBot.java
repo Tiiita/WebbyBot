@@ -4,6 +4,7 @@ import de.tiiita.webbybot.command.TimeCommand;
 import de.tiiita.webbybot.command.console.ConsoleCommandManager;
 import de.tiiita.webbybot.database.DatabaseManager;
 import de.tiiita.webbybot.database.MySQL;
+import de.tiiita.webbybot.listener.GuildJoinListener;
 import de.tiiita.webbybot.util.Config;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -51,9 +52,11 @@ public class WebbyBot {
         //this.databaseManager = new DatabaseManager(mySQL);
 
         setupDiscord(token);
-        jda.updateCommands().submit();
-        Logger.log(infoLogger, "Start Complete, Done :)");
-        Logger.log(infoLogger, "Type 'shutdown' to stop the bot application");
+        /*databaseManager.registerEveryNonRegisteredGuild().whenComplete((unused, throwable) -> {
+            Logger.log(infoLogger, "Start Complete, Done :)");
+            Logger.log(infoLogger, "Type 'shutdown' to stop the bot application");
+        });*/
+
         this.consoleCommandManager = new ConsoleCommandManager(this);
     }
 
@@ -61,6 +64,8 @@ public class WebbyBot {
     private void setupDiscord(String token) {
         connectToDiscord(token);
         registerCommands();
+        registerListener();
+        jda.updateCommands().submit();
     }
 
 
@@ -74,6 +79,9 @@ public class WebbyBot {
         });
     }
 
+    private void registerListener() {
+        jda.addEventListener(new GuildJoinListener(databaseManager));
+    }
 
     //Register discord bot commands here:
     private CommandCreateAction registerCommand(@NotNull String guildId, @NotNull String name, @NotNull String description, @NotNull Object command) {
@@ -114,5 +122,4 @@ public class WebbyBot {
     public Config getConfig() {
         return config;
     }
-
 }
