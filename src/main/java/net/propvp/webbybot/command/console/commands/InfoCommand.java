@@ -29,7 +29,7 @@ public class InfoCommand extends ConsoleCommand {
     private void sendInfo() {
         System.out.println("> Bot Information <");
         System.out.println(getDesignLine());
-        System.out.println("Name:" + jda.getSelfUser().getName());
+        System.out.println("Name: " + jda.getSelfUser().getName());
         System.out.println("Guilds: " + jda.getGuilds().size());
         try {
             System.out.println("Version: " + getPomProjectVersion());
