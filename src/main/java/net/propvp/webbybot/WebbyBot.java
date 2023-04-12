@@ -66,8 +66,10 @@ public class WebbyBot {
     private void registerCommands() {
         List<Guild> guilds = jda.getGuilds();
         guilds.forEach(currentGuild -> {
+            String guildId = currentGuild.getId();
+
             //Register every command here!
-            registerCommand(currentGuild.getId(), "time", "Show the UTC Time", new TimeCommand());
+            registerCommand(guildId, "time", "Show the UTC Time", new TimeCommand());
         });
     }
 
