@@ -1,5 +1,7 @@
 package net.propvp.webbybot.command.console;
 
+import net.propvp.webbybot.WebbyBot;
+import net.propvp.webbybot.command.console.commands.InfoCommand;
 import net.propvp.webbybot.command.console.commands.ShutDownCommand;
 
 import java.util.HashSet;
@@ -12,14 +14,18 @@ import java.util.Set;
  */
 public class ConsoleCommandManager {
 
-    private final Set<Command> registeredConsoleCommands = new HashSet<>();
 
-    public ConsoleCommandManager() {
+    private final WebbyBot plugin;
+    private final Set<ConsoleCommand> registeredConsoleCommands = new HashSet<>();
+
+    public ConsoleCommandManager(WebbyBot plugin) {
+        this.plugin = plugin;
         registerCommand(new ShutDownCommand());
+        registerCommand(new InfoCommand(plugin.getJda(), plugin.getSecurityConfig()));
         listenToCommand();
     }
 
-    public void registerCommand(Command command) {
+    public void registerCommand(ConsoleCommand command) {
         registeredConsoleCommands.add(command);
     }
 
@@ -34,7 +40,7 @@ public class ConsoleCommandManager {
             return;
         }
 
-        for (Command command : registeredConsoleCommands) {
+        for (ConsoleCommand command : registeredConsoleCommands) {
             if (!input.equalsIgnoreCase(command.getCommandName())) continue;
             if (command.getActionOnRun() == null) continue;
             command.getActionOnRun().run();

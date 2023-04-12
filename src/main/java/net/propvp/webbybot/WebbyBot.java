@@ -53,7 +53,7 @@ public class WebbyBot {
         setupDiscord(token);
         Logger.log(infoLogger, "Start Complete, Done :)");
         Logger.log(infoLogger, "Type 'shutdown' to stop the bot application");
-        this.consoleCommandManager = new ConsoleCommandManager();
+        this.consoleCommandManager = new ConsoleCommandManager(this.jda);
     }
 
 

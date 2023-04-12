@@ -1,12 +1,12 @@
 package net.propvp.webbybot.command.console.commands;
 
-import net.propvp.webbybot.command.console.Command;
+import net.propvp.webbybot.command.console.ConsoleCommand;
 
 /**
  * Created on April 11, 2023 | 01:26:40
  * (●'◡'●)
  */
-public class ShutDownCommand extends Command {
+public class ShutDownCommand extends ConsoleCommand {
     public ShutDownCommand() {
         super("shutdown");
         setActionOnRun(this::shutdown);

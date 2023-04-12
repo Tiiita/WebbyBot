@@ -4,12 +4,12 @@ package net.propvp.webbybot.command.console;
  * Created on April 11, 2023 | 01:18:57
  * (●'◡'●)
  */
-public abstract class Command {
+public abstract class ConsoleCommand {
     private final String commandName;
     private Runnable actionOnRun;
 
 
-    public Command(String commandName) {
+    public ConsoleCommand(String commandName) {
         this.commandName = commandName;
     }
     public String getCommandName() {
