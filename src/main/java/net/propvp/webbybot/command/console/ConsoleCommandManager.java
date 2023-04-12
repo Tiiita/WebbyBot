@@ -1,6 +1,7 @@
 package net.propvp.webbybot.command.console;
 
 import net.propvp.webbybot.WebbyBot;
+import net.propvp.webbybot.command.console.commands.GuildsCommand;
 import net.propvp.webbybot.command.console.commands.InfoCommand;
 import net.propvp.webbybot.command.console.commands.ShutDownCommand;
 
@@ -21,6 +22,7 @@ public class ConsoleCommandManager {
     public ConsoleCommandManager(WebbyBot plugin) {
         this.plugin = plugin;
         registerCommand(new ShutDownCommand());
+        registerCommand(new GuildsCommand(plugin.getJda()));
         registerCommand(new InfoCommand(plugin.getJda(), plugin.getSecurityConfig()));
         listenToCommand();
     }

@@ -28,7 +28,7 @@ public class InfoCommand extends ConsoleCommand {
 
     private void sendInfo() {
         System.out.println("> Bot Information <");
-        System.out.println("————————————————————————");
+        System.out.println(getDesignLine());
         System.out.println("Name:" + jda.getSelfUser().getName());
         System.out.println("Guilds: " + jda.getGuilds().size());
         try {
@@ -38,7 +38,7 @@ public class InfoCommand extends ConsoleCommand {
         }
         System.out.println("Creation Date: " + securityConfig.getString("creation-date"));
         System.out.println("Prefix: /");
-        System.out.println("————————————————————————");
+        System.out.println(getDesignLine());
     }
 
     private String getPomProjectVersion() throws IOException, XmlPullParserException {
