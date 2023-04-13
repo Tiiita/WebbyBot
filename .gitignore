@@ -1,3 +1,14 @@
 # Project exclude paths
 /target/
 src/main/resources/security.yml
+/.idea/.gitignore
+/.idea/libraries/commons_io_2_10_0.xml
+/.idea/libraries/commons_io_2_10_0_javadoc.xml
+/.idea/compiler.xml
+/.idea/encodings.xml
+/.idea/jarRepositories.xml
+/.idea/misc.xml
+/.idea/libraries/orgjson.xml
+/.idea/inspectionProfiles/Project_Default.xml
+/.idea/vcs.xml
+/.idea/libraries/vecmath_1_5_2.xml
