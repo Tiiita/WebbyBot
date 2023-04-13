@@ -20,14 +20,12 @@ public class DatabaseManager {
     private final MySQL mySQL;
     private final JDA jda;
 
-    public DatabaseManager(MySQL mySQL, JDA jda) {
+    public DatabaseManager(JDA jda, MySQL mySQL) {
         this.mySQL = mySQL;
         this.jda = jda;
     }
 
     private final String settingsTable = "settings";
-
-
     public CompletableFuture<Boolean> isGuildRegistered(String guildId) {
         return CompletableFuture.supplyAsync(() -> {
             try (Connection connection = getConnection(); PreparedStatement statement = connection.prepareStatement(

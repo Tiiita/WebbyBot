@@ -45,20 +45,19 @@ public class WebbyBot {
 
 
         //Setup Database
-        String host = getConfig().getString("mysql.host");
-        String port = getConfig().getString("mysql.port");
-        String database = getConfig().getString("mysql.database");
-        String username = getConfig().getString("mysql.user");
-        String password = getConfig().getString("mysql.password");
+        String host = securityConfig.getString("mysql.host");
+        String port = securityConfig.getString("mysql.port");
+        String database = securityConfig.getString("mysql.database");
+        String username = securityConfig.getString("mysql.user");
+        String password = securityConfig.getString("mysql.password");
 
-        //IMPORTANT: Database is not set up.
-        //this.mySQL = new MySQL(host, port, database, username, password);
-        //this.databaseManager = new DatabaseManager(mySQL);
+        this.mySQL = new MySQL(host, port, database, username, password);
+        this.databaseManager = new DatabaseManager(jda, mySQL);
 
-        /*databaseManager.registerEveryNonRegisteredGuild().whenComplete((unused, throwable) -> {
+        databaseManager.registerEveryNonRegisteredGuild().whenComplete((unused, throwable) -> {
             Logger.log(infoLogger, "Start Complete, Done :)");
             Logger.log(infoLogger, "Type 'shutdown' to stop the bot application");
-        });*/
+        });
 
         this.pollManager = new PollManager();
         setupDiscord(token);

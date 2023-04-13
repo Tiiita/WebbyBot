@@ -47,12 +47,36 @@ public class Config {
     }
 
 
+    private void loadYaml(InputStream inputStream, Map<String, Object> target, String pathPrefix) throws IOException {
+        Yaml yaml = new Yaml();
+        try (Reader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+            Map<String, Object> yamlConfig = yaml.load(reader);
+            if (yamlConfig == null) {
+                throw new IllegalArgumentException("Invalid YAML syntax");
+            }
+            for (Map.Entry<String, Object> entry : yamlConfig.entrySet()) {
+                String key = entry.getKey();
+                Object value = entry.getValue();
+                if (value instanceof Map) {
+                    // Recursively process nested maps
+                    String nestedPath = pathPrefix.isEmpty() ? key : pathPrefix + "." + key;
+                    loadYaml(new ByteArrayInputStream(yaml.dump(value).getBytes()), target, nestedPath);
+                } else {
+                    // Construct the full path for this leaf value
+                    String fullPath = pathPrefix.isEmpty() ? key : pathPrefix + "." + key;
+                    // Store the value in the target map
+                    target.put(fullPath, value);
+                }
+            }
+        }
+    }
+
     public void load(String filePath) throws IOException {
         ClassLoader classLoader = getClass().getClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream(filePath);
         String fileExtension = getFileExtension(filePath);
         if (fileExtension.equals("yml") || fileExtension.equals("yaml")) {
-            loadYaml(inputStream);
+            loadYaml(inputStream, config, "");
         } else {
             loadPlainText(inputStream);
         }
@@ -71,17 +95,6 @@ public class Config {
                 String[] parts = line.split(":");
                 config.put(parts[0].trim(), parts[1].trim());
             }
-        }
-    }
-
-    private void loadYaml(InputStream inputStream) throws IOException {
-        Yaml yaml = new Yaml();
-        try (Reader reader = new BufferedReader(new InputStreamReader(inputStream))) {
-            Map<String, Object> yamlConfig = yaml.load(reader);
-            if (yamlConfig == null) {
-                throw new IllegalArgumentException("Invalid YAML syntax");
-            }
-            config.putAll(yamlConfig);
         }
     }
 
