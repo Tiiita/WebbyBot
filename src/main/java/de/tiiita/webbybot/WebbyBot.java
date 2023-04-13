@@ -5,6 +5,8 @@ import de.tiiita.webbybot.command.console.ConsoleCommandManager;
 import de.tiiita.webbybot.database.DatabaseManager;
 import de.tiiita.webbybot.database.MySQL;
 import de.tiiita.webbybot.listener.GuildJoinListener;
+import de.tiiita.webbybot.pollsystem.PollCommand;
+import de.tiiita.webbybot.pollsystem.PollManager;
 import de.tiiita.webbybot.util.Config;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
@@ -27,6 +29,7 @@ public class WebbyBot {
     private JDA jda;
     private Config config;
     private Config securityConfig;
+    private PollManager pollManager;
     private MySQL mySQL;
     private DatabaseManager databaseManager;
     private ConsoleCommandManager consoleCommandManager;
@@ -40,6 +43,7 @@ public class WebbyBot {
         this.securityConfig = new Config("security.yml");
         String token = securityConfig.getString("token");
 
+
         //Setup Database
         String host = getConfig().getString("mysql.host");
         String port = getConfig().getString("mysql.port");
@@ -51,15 +55,17 @@ public class WebbyBot {
         //this.mySQL = new MySQL(host, port, database, username, password);
         //this.databaseManager = new DatabaseManager(mySQL);
 
-        setupDiscord(token);
         /*databaseManager.registerEveryNonRegisteredGuild().whenComplete((unused, throwable) -> {
             Logger.log(infoLogger, "Start Complete, Done :)");
             Logger.log(infoLogger, "Type 'shutdown' to stop the bot application");
         });*/
 
+        this.pollManager = new PollManager();
+        setupDiscord(token);
+
+
         this.consoleCommandManager = new ConsoleCommandManager(this);
     }
-
 
     private void setupDiscord(String token) {
         connectToDiscord(token);
@@ -75,6 +81,7 @@ public class WebbyBot {
             String guildId = currentGuild.getId();
 
             //Register every command here!
+            registerCommand(guildId, "poll", "Create polls easily", new PollCommand(pollManager));
             registerCommand(guildId, "time", "Show the UTC Time", new TimeCommand());
         });
     }

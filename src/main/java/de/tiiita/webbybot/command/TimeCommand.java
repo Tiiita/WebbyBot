@@ -16,6 +16,7 @@ public class TimeCommand extends ListenerAdapter {
 
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event) {
+        if (!event.getName().equalsIgnoreCase("time")) return;
         EmbedBuilder embed = new EmbedBuilder();
         embed.setColor(Color.CYAN);
         embed.setDescription("It is " + TimeUtil.getTimeInPattern("HH:mm a"));

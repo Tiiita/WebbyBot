@@ -7,8 +7,7 @@ import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
 import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 /**
  * Created on April 12, 2023 | 17:20:25
@@ -42,7 +41,9 @@ public class InfoCommand extends ConsoleCommand {
 
     private String getPomProjectVersion() throws IOException, XmlPullParserException {
         MavenXpp3Reader reader = new MavenXpp3Reader();
-        Model model = reader.read(new FileReader("pom.xml"));
+        File pomFile = new File(System.getProperty("user.dir"), "pom.xml");
+        InputStream inputStream = new FileInputStream(pomFile);
+        Model model = reader.read(inputStream);
         return model.getVersion();
     }
 }

@@ -1,6 +1,7 @@
 package de.tiiita.webbybot.pollsystem;
 
 import de.tiiita.webbybot.util.Base64;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 
 import java.util.ArrayList;
@@ -19,6 +20,10 @@ public class PollManager {
         currentPolls.add(poll);
     }
 
+    public boolean hasCreatePollPermission(Member member) {
+        //Implement code from dashboard (Role permission system)
+        return member.hasPermission(Permission.ADMINISTRATOR);
+    }
     public void closePoll(Poll poll) {
         poll.close();
         currentPolls.remove(poll);
