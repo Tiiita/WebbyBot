@@ -18,6 +18,9 @@ public enum Logger {
         Logger error = Logger.valueOf("ERROR");
         sendLog(type.name().equals("ERROR"), type, message);
     }
+    public static void logInfo(String message) {
+        log(Logger.INFO, message);
+    }
 
     private static void sendLog(boolean error, Logger type, String message) {
         String layout = type.name() + " -> " + message;

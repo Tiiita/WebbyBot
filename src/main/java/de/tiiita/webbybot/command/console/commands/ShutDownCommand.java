@@ -1,5 +1,6 @@
 package de.tiiita.webbybot.command.console.commands;
 
+import de.tiiita.webbybot.WebbyBot;
 import de.tiiita.webbybot.command.console.ConsoleCommand;
 
 /**
@@ -9,11 +10,6 @@ import de.tiiita.webbybot.command.console.ConsoleCommand;
 public class ShutDownCommand extends ConsoleCommand {
     public ShutDownCommand() {
         super("shutdown");
-        setActionOnRun(this::shutdown);
-    }
-
-    private void shutdown() {
-        System.out.println("Shutting down...");
-        System.exit(0);
+        setActionOnRun(() -> System.exit(0));
     }
 }

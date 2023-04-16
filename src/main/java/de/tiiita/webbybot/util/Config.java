@@ -1,18 +1,13 @@
 package de.tiiita.webbybot.util;
 
 import org.yaml.snakeyaml.Yaml;
-
 import java.io.*;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.attribute.PosixFilePermission;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created on April 10, 2023 | 17:46:08
@@ -20,8 +15,10 @@ import java.util.Set;
  */
 public class Config {
     private final Map<String, Object> config;
+    private final String filePath;
 
     public Config(String filePath) {
+        this.filePath = filePath;
         config = new HashMap<>();
         try {
             load(filePath);
@@ -29,7 +26,6 @@ public class Config {
             throw new RuntimeException(e);
         }
     }
-
     public void setString(String path, String value) {
         config.put(path, value);
     }
@@ -71,14 +67,32 @@ public class Config {
         }
     }
 
-    public void load(String filePath) throws IOException {
-        ClassLoader classLoader = getClass().getClassLoader();
-        InputStream inputStream = classLoader.getResourceAsStream(filePath);
-        String fileExtension = getFileExtension(filePath);
-        if (fileExtension.equals("yml") || fileExtension.equals("yaml")) {
-            loadYaml(inputStream, config, "");
+    public void load(String fileName) throws IOException {
+        File configFile = new File(fileName);
+        if (configFile.exists()) {
+            // If the config file exists, load it from the file
+            try (InputStream inputStream = new FileInputStream(configFile)) {
+                String fileExtension = getFileExtension(fileName);
+                if (fileExtension.equals("yml") || fileExtension.equals("yaml")) {
+                    loadYaml(inputStream, config, "");
+                } else {
+                    loadPlainText(inputStream);
+                }
+            }
         } else {
-            loadPlainText(inputStream);
+            // If the config file doesn't exist, load it from the jar
+            ClassLoader classLoader = getClass().getClassLoader();
+            try (InputStream inputStream = classLoader.getResourceAsStream(fileName)) {
+                if (inputStream == null) {
+                    throw new FileNotFoundException("Config file not found: " + fileName);
+                }
+                String fileExtension = getFileExtension(fileName);
+                if (fileExtension.equals("yml") || fileExtension.equals("yaml")) {
+                    loadYaml(inputStream, config, "");
+                } else {
+                    loadPlainText(inputStream);
+                }
+            }
         }
     }
 
@@ -98,14 +112,18 @@ public class Config {
         }
     }
 
-    public void save(String filePath) throws IOException {
+    public void save() {
         Path path = Path.of(filePath);
         String fileExtension = getFileExtension(filePath);
 
-        if (fileExtension.equals("yml") || fileExtension.equals("yaml")) {
-            saveYaml(path);
-        } else {
-            savePlainText(path);
+        try {
+            if (fileExtension.equals("yml") || fileExtension.equals("yaml")) {
+                saveYaml(path);
+            } else {
+                savePlainText(path);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 

@@ -36,6 +36,8 @@ public class WebbyBot {
     private ConsoleCommandManager consoleCommandManager;
 
     public void run() {
+        //Start logic here:
+        setShutdownLogic();
         Logger infoLogger = Logger.INFO;
         Logger.log(infoLogger, "Starting...");
 
@@ -66,6 +68,15 @@ public class WebbyBot {
 
         this.consoleCommandManager = new ConsoleCommandManager(this);
     }
+
+        public void setShutdownLogic() {
+            // Plugin shutdown logic
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                // Perform tasks before shutting down
+                System.out.println("Shutdown...");
+                // e.g. save files, close database connections, etc.
+            }));
+        }
 
     private void setupDiscord(String token) {
         connectToDiscord(token);
