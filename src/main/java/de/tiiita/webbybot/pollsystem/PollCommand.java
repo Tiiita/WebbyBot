@@ -6,10 +6,15 @@ import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.interactions.commands.OptionMapping;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
 import org.jetbrains.annotations.NotNull;
+import org.w3c.dom.ls.LSException;
 
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.List;
 
 /**
  * Created on April 13, 2023 | 15:09:53
@@ -38,8 +43,20 @@ public class PollCommand extends ListenerAdapter {
 
         Guild guild = event.getGuild();
         if (guild != null) {
-            pollManager.createPoll(guild.getId(), member);
+
+
+            pollManager.createPoll(guild.getId(), member, getPollAnswers(event));
             event.replyEmbeds(EmbedUtil.getSimpleEmbed("You have successfully created a poll!")).setEphemeral(true).submit();
         }
+    }
+
+    private List<String> getPollAnswers(SlashCommandInteractionEvent event) {
+        List<OptionMapping> options = event.getOptions();
+        List<String> answers = new ArrayList<>();
+
+        options.forEach(optionMapping -> {
+            answers.add(optionMapping.getAsString());
+        });
+        return answers;
     }
 }

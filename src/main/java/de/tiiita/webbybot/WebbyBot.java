@@ -12,6 +12,7 @@ import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.interactions.commands.OptionType;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.requests.restaction.CommandCreateAction;
 import de.tiiita.webbybot.util.Logger;
@@ -51,13 +52,13 @@ public class WebbyBot {
         String username = securityConfig.getString("mysql.user");
         String password = securityConfig.getString("mysql.password");
 
-        this.mySQL = new MySQL(host, port, database, username, password);
-        this.databaseManager = new DatabaseManager(jda, mySQL);
+        /*this.mySQL = new MySQL(host, port, database, username, password);
+        this.databaseManager = new DatabaseManager(jda, mySQL);*/
 
-        databaseManager.registerEveryNonRegisteredGuild().whenComplete((unused, throwable) -> {
+        /*databaseManager.registerEveryNonRegisteredGuild().whenComplete((unused, throwable) -> {
             Logger.log(infoLogger, "Start Complete, Done :)");
             Logger.log(infoLogger, "Type 'shutdown' to stop the bot application");
-        });
+        });*/
 
         this.pollManager = new PollManager();
         setupDiscord(token);
@@ -80,11 +81,21 @@ public class WebbyBot {
             String guildId = currentGuild.getId();
 
             //Register every command here!
-            registerCommand(guildId, "poll", "Create polls easily", new PollCommand(pollManager));
+
             registerCommand(guildId, "time", "Show the UTC Time", new TimeCommand());
         });
     }
 
+    private void registerPollCommand(String guildId) {
+        CommandCreateAction command = registerCommand(guildId, "poll", "Create polls easily", new PollCommand(pollManager));
+        String description = "Set a optional answer to the poll";
+        for (int i = 0; i < 20; i++) {
+            String currentAnswer = "answer" + i + 1;
+            if (i <= 1) {
+                command.addOption(OptionType.STRING, currentAnswer, description, true).submit();
+            } else command.addOption(OptionType.STRING, currentAnswer, description, false).submit();
+        }
+    }
     private void registerListener() {
         jda.addEventListener(new GuildJoinListener(databaseManager));
     }

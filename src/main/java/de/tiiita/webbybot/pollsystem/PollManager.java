@@ -15,8 +15,8 @@ public class PollManager {
 
     private final List<Poll> currentPolls = new ArrayList<>();
 
-    public void createPoll(String guildId, Member creator) {
-        Poll poll = new Poll(guildId, creator.getId());
+    public void createPoll(String guildId, Member creator, List<String> answers) {
+        Poll poll = new Poll(guildId, creator.getId(), answers);
         currentPolls.add(poll);
     }
 
