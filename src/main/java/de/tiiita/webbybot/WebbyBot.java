@@ -1,5 +1,6 @@
 package de.tiiita.webbybot;
 
+import de.tiiita.webbybot.command.ClearSpamCommand;
 import de.tiiita.webbybot.command.TimeCommand;
 import de.tiiita.webbybot.command.console.ConsoleCommandManager;
 import de.tiiita.webbybot.database.DatabaseManager;
@@ -42,7 +43,7 @@ public class WebbyBot {
         Logger.log(infoLogger, "Starting...");
 
         //Setup configs
-        this.config = new Config( "config.yml");
+        this.config = new Config("config.yml");
         this.securityConfig = new Config("security.yml");
         String token = securityConfig.getString("token");
 
@@ -69,14 +70,14 @@ public class WebbyBot {
         this.consoleCommandManager = new ConsoleCommandManager(this);
     }
 
-        public void setShutdownLogic() {
-            // Plugin shutdown logic
-            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-                // Perform tasks before shutting down
-                System.out.println("Shutdown...");
-                // e.g. save files, close database connections, etc.
-            }));
-        }
+    public void setShutdownLogic() {
+        // Plugin shutdown logic
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            // Perform tasks before shutting down
+            System.out.println("Shutdown...");
+            // e.g. save files, close database connections, etc.
+        }));
+    }
 
     private void setupDiscord(String token) {
         connectToDiscord(token);
@@ -93,6 +94,10 @@ public class WebbyBot {
 
             //Register every command here!
 
+            registerCommand(guildId, "clear-spam", "Clear channels from raid / spam messages", new ClearSpamCommand())
+                    .addOption(OptionType.STRING, "message", "The Message that is equally to the one that should be deleted", true)
+                    .submit();
+
             registerCommand(guildId, "time", "Show the UTC Time", new TimeCommand());
         });
     }
@@ -107,6 +112,7 @@ public class WebbyBot {
             } else command.addOption(OptionType.STRING, currentAnswer, description, false).submit();
         }
     }
+
     private void registerListener() {
         jda.addEventListener(new GuildJoinListener(databaseManager));
     }
