@@ -95,7 +95,7 @@ public class WebbyBot {
             //Register every command here!
 
             registerCommand(guildId, "clear-spam", "Clear channels from raid / spam messages", new ClearSpamCommand())
-                    .addOption(OptionType.STRING, "message", "The Message that is equally to the one that should be deleted", true)
+                    .addOption(OptionType.STRING, "message", "The message that is equally to the one that should be deleted", true)
                     .submit();
 
             registerCommand(guildId, "time", "Show the UTC Time", new TimeCommand());

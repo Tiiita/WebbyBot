@@ -11,6 +11,7 @@ import java.awt.*;
  */
 public class EmbedUtil {
 
+
     public static MessageEmbed getSimpleEmbed(String text) {
         EmbedBuilder embedBuilder = new EmbedBuilder();
         embedBuilder.setDescription(text);
@@ -18,7 +19,13 @@ public class EmbedUtil {
         return embedBuilder.build();
     }
 
+    public static MessageEmbed getSimpleEmbed(Color color, String text) {
+        EmbedBuilder embedBuilder = new EmbedBuilder();
+        embedBuilder.setDescription(text);
+        embedBuilder.setColor(color);
+        return embedBuilder.build();
+    }
     public static MessageEmbed getNoPermissionMessage() {
-        return getSimpleEmbed("You do not have permission for that :(!");
+        return getSimpleEmbed(Color.RED, "You do not have permission for that :(!");
     }
 }
