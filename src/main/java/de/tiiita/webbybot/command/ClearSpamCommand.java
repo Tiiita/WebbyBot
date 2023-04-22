@@ -20,6 +20,10 @@ import java.nio.channels.Channel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created on April 22, 2023 | 20:18:47
@@ -41,7 +45,8 @@ public class ClearSpamCommand extends ListenerAdapter {
                 event.replyEmbeds(EmbedUtil.getSimpleEmbed(Color.RED, "No messages like '**" + messageTypeToDelete + "**' found...")).setEphemeral(true).submit();
                 return;
             }
-            event.replyEmbeds(EmbedUtil.getSimpleEmbed("Successfully removed **" + deletedMessages.size() + "** /**100** spam / raid messages!\n" +
+            event.replyEmbeds(EmbedUtil.getSimpleEmbed("Removing **" + deletedMessages.size() + "** /**100** spam / raid messages!\n" +
+                    "This may take some seconds if there are many messages!\n" +
                     "Repeat the command to check another 100 messages! \n\n_Discord allows only 100 checks in the same time..._")).setEphemeral(true).submit();
         });
     }
@@ -65,15 +70,34 @@ public class ClearSpamCommand extends ListenerAdapter {
      * @return A list of all deleted messages
      */
     private CompletableFuture<List<Message>> deleteMessages(MessageChannelUnion channel, String sameMessage) {
-        return getChannelMessages(channel).thenApply(messages -> {
+        return getChannelMessages(channel).thenCompose(messages -> {
             List<Message> deletedMessages = new ArrayList<>();
-            for (Message message : messages) {
-                if (message.getContentStripped().equalsIgnoreCase(sameMessage)) {
-                    deletedMessages.add(message);
-                    message.delete().submit();
-                }
+            List<CompletableFuture<Void>> futures = new ArrayList<>();
+
+            ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
+
+            for (int i = 0; i < messages.size(); i += 8) {
+                List<Message> batch = messages.subList(i, Math.min(i + 8, messages.size()));
+                CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
+                    for (Message message : batch) {
+                        if (message.getContentStripped().equalsIgnoreCase(sameMessage)) {
+                            deletedMessages.add(message);
+                            message.delete().submit();
+                        }
+                    }
+                });
+
+                futures.add(future.thenAcceptAsync(x -> {
+                    try {
+                        Thread.sleep(125);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }, executor));
             }
-            return deletedMessages;
+
+            return CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]))
+                    .thenApply(x -> deletedMessages);
         });
     }
 }
